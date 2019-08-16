@@ -1,0 +1,32 @@
+.username{
+    text-align: left;
+    padding-left: 4%;
+    display: inline-block;
+    margin-top: 20px;
+}
+.nomb, .apell{
+    margin-top: 10px;
+    text-align: left;
+    padding-left: 4%;
+    display: inline-block;
+}
+.nick-u, .nomb-u, .apell-u{
+    margin-top: 2px;
+    width: 94%;
+    margin-left: 3%;
+    height: 40px;
+    padding-left: 4%;
+    padding-right: 4%;
+    border-radius: 4px; 
+}
+#InfoAliasCorre, #InfoNombre, #InfoApell{
+    display: inline-block;
+    width: 94%;
+    margin-left: 3%;
+}
+#center-btn{
+    display: inline-block;
+    margin-top: 15px;
+    width: 94%;
+    margin-left: 3%;
+}
