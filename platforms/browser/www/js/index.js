@@ -31,7 +31,7 @@ var app = {
     onDeviceReady: function() {
         checkConnection();
         welcome();
-        //Opcionper();
+        Opcionper();
         document.addEventListener("backbutton", onBackKeyDown, false);
     },
     // Update DOM on a Received Event
