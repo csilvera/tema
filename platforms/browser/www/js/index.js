@@ -117,22 +117,6 @@ function Guia(){
     }
     $('#THeader').css('display','none');
     $('#Publica').empty();
-    var dinial = localStorage.getItem('datosiniciales');
-    if(dinial == null){
-        $('#Publica').append(`
-                            <div class="tit-sim col-min Jum-primary bg-bold">Tienda simple</div>
-                            <i class="ini-wel"></i>
-                            <div id="GuiaU"> 
-                                <div class="boca-saludaon"><div class="txt-ini col-min ">Hola `+mens+`</div> </div>
-                                <div class="DatosClien let-primary col-min" id="Toma">Espere...</div>
-                                <div class="progress cargan">
-                                  <div class="progress-bar" id="Progreso" style="width:10%;text-align:center;">10%</div>
-                                </div>
-                            </div>`);
-        Opcioncompra();
-    }
-    else{
-    
     $('#Publica').append(`<div class="boca-hora let-seg col-min">
                             Lun a Vie. de 8:00 am a 7:00 pm 
                         </div>
@@ -159,7 +143,6 @@ function Guia(){
                         </div></div>
                          <div class="btn btn-primary continua" id="Ntipon">Siguiente</div>
                          <div class="btn btn-light continua" id="Nomite">Omitir </div>`);
-    }
     if(ho < 8 | ho < 20){
         var t = setTimeout(function(){
             $('.boca-hora').show();
