@@ -31,7 +31,7 @@ var app = {
     onDeviceReady: function() {
         checkConnection();
         welcome();
-       Opcionper();
+        //Opcionper();
         document.addEventListener("backbutton", onBackKeyDown, false);
     },
     // Update DOM on a Received Event
@@ -117,19 +117,21 @@ function Guia(){
     }
     $('#THeader').css('display','none');
     $('#Publica').empty();
-    /*var dinial = localStorage.getItem('datosiniciales');
+    var dinial = localStorage.getItem('datosiniciales');
     if(dinial == null){
         $('#Publica').append(`
                             <div class="tit-sim col-min Jum-primary bg-bold">Tienda simple</div>
                             <i class="ini-wel"></i>
                             <div id="GuiaU"> 
-                                <div class="boca-saluda"><div class="txt-ini col-min ">Hola `+mens+`</div> </div>
+                                <div class="boca-saludaon"><div class="txt-ini col-min ">Hola `+mens+`</div> </div>
+                                <div class="DatosClien let-primary col-min" id="Toma">Espere...</div>
                                 <div class="progress cargan">
-                                  <div class="progress-bar" style="width:70%">70%</div>
+                                  <div class="progress-bar" id="Progreso" style="width:10%;text-align:center;">10%</div>
                                 </div>
                             </div>`);
+        Opcioncompra();
     }
-    else{*/
+    else{
     
     $('#Publica').append(`<div class="boca-hora let-seg col-min">
                             Lun a Vie. de 8:00 am a 7:00 pm 
@@ -157,7 +159,7 @@ function Guia(){
                         </div></div>
                          <div class="btn btn-primary continua" id="Ntipon">Siguiente</div>
                          <div class="btn btn-light continua" id="Nomite">Omitir </div>`);
-    //}
+    }
     if(ho < 8 | ho < 20){
         var t = setTimeout(function(){
             $('.boca-hora').show();
@@ -200,10 +202,6 @@ function inicio(){
         <input type="password" name="contra" placeholder="Ingrese contraseña" class="passk-u col-primary let-seg bord" id="ContraS" maxlength="15" onpaste="return false" />
         <i class="ico-pass" id="OjoPun"></i>
         <div id="InfoContras"></div>
-        <div class=" btn btn-light continuar-olv" id="Olvidast">¿Olvidaste tu contraseña. ?</div>
-         <div class="btn btn-light continuar-al" id="helpay">¿Necesitas ayuda. ?</div>
-        <div class="btn btn-light continuar" id="registaho">Registrate ahora.</div>
-        <div class="btn btn-success continuar" id="ActGuia">Comprar ahora</div>
         <button type="submit" class="ColorDominante" id="En-sub">
             <i class="ico-send"></i>
         </button>
@@ -261,10 +259,6 @@ $('#opc-1').on('click','#Menu-btn', function(){
         $('.Despl-menu').animate({left:'-80%'},'show');
     }
 });
-$('#Publica').on('click','#ActGuia', function(){
-    localStorage.setItem("sesion", 'guia');
-    welcome();
-});
 $('#Publica').on('click','#Ntipon', function(e){
     e.preventDefault();
     $('#GuiaU').empty();
@@ -301,7 +295,20 @@ $('#Publica').on('click','.list-met', function(e){
     localStorage.setItem("tema", n);
     $('#GuiaU').empty();
     $('#GuiaU').append(`<div class="boca-cuenta"><div class="txt-ini col-min ">Tu negocio podrás gestionar tus clientes, inventario, ayudar a tus clientes así como también dar tu ubicación física, horario de atención y opciones como abrir o cerrar tu negocio. </div></div>
-    <div class="btn btn-primary continua" id="AceptaCon">Continuar</div>`);
+    <div class="btn btn-primary desicion" id="Probar">Probar</div>
+    <div class="btn btn-primary desicion" id="AceptaCon">Continuar</div>`);
+});
+$('#Publica').on('click','#Probar', function(e){
+    e.preventDefault();
+    localStorage.setItem("sesion", 'inicio');
+    welcome();
+    $('footer').show();
+    $('footer').empty();
+    $('footer').css('background-color','#F4511E');
+    $('footer').append(`<i class="appacom"></i><div class="smservis col-ter let-seg bg-bold">Registrate he inicia sesion para conocer nuestra tienda.</div>`);
+    var ins = setTimeout(function(){
+        $('footer').hide();
+    },4000);
 });
 $('#Publica').on('click','#AceptaCon', function(e){
     e.preventDefault();
@@ -349,8 +356,18 @@ $('#Publica').on('click','#AceptaYes', function(e){
          <button type="submit" class="ColorDominante" id="AceptaComple"> 
             <i class="ico-send"></i>
         </button>
+        <div class="ColorDominante" id="Regres"> 
+            <i class="ico-atras"></i>
+        </div>
         </form>
     </div>`);
+});
+$('#Publica').on('click','#Regres', function(e){
+    e.preventDefault();
+    $('#GuiaU').empty();
+    $('#GuiaU').append(`<div class="boca-saludas"><div class="txt-ini col-min bg-bold">¿ Desea realizar la compra ahora. ? </div></div>
+    <div class="btn btn-primary desicion" id="AceptaNot">No</div>
+    <div class="btn btn-primary desicion" id="AceptaYes">Si</div>`);
 });
 $('#Publica').on('change','#clientes', function(e){
     e.preventDefault();
@@ -376,10 +393,520 @@ $('#Publica').on('change','#clientes', function(e){
         $('.descriplan').text('Descripcion:mas de 100.000 clientes registrados y 50 articulos en inventario.');
     }
 });
+function OlvidasteContra(){
+    $('#THeader').css('display','block');;
+    $('#text-1').css('padding-top','5px');
+    $('#text-1').text('Restaurar contraseña');
+    $('#opc-2').load('opciones/nada.html');
+    $('#opc-1').load('opciones/regresar-ini.html');
+    $('#Publica').empty();
+    $('#Publica').append(`<form id="RestaurarPass" autocomplete="off">
+    <div class="username let-seg col-min">Seudónimo o correo</div>
+    <input type="text" placeholder="Ingrese Seudónimo o correo" name="namein" class="nick-u let-seg" id="Olvid" maxlength="50" />
+    <div id="InfoAliasCort"></div>
+    <button type="submit" class="ColorDominante" id="En-sub">
+        <i class="ico-send"></i>
+    </button>
+</form>`);
+    
+}
+$('#Publica').on('submit','#RestaurarPass', function(e){
+    e.preventDefault();
+    var d = $('#Olvid').val();
+    var se = $('#Olvid').serialize();
+    var devi = device.platform;
+    if(d.length < 4 ){
+       $('.Inestado').show();
+       $('.Inestado').text('Minimo 5 caracteres.');
+        var ins = setTimeout(function(){
+            $('.Inestado').hide();
+        },6000);
+    }
+    else{
+        $.ajax({
+            url:'https://add.sakuraitachi.com/mrestaurar',
+            data:se+'&device='+devi,
+            type:'GET',
+            timeout:20000,
+            dataType: "json"
+        })
+        .done(function(data){
+            $('.Inestado').show();
+            $('.Inestado').text(data);
+            var ins = setTimeout(function(){
+                $('.Inestado').hide();
+            },6000);
+        })
+        .fail(function( jqXHR, textStatus, errorThrown ) {
+                    if (jqXHR.status == 500) {
+                        console.log('Internal Server Error [500].');
+                        $('.Inestado').show();
+                        $('.Inestado').text('Servidor colapsado.');
+                        var ins = setTimeout(function(){
+                            $('.Inestado').hide();
+                            $('.Inestado').show();
+                            $('.Inestado').text('Reintente luego.');
+                            var y = setTimeout(function(){
+                                $('.Inestado').hide();
+                                console.clear();
+                            },3000)
+                        },3000);
+                    }
+                    else if (textStatus === 'timeout') {
+                        console.log('Time out error.');
+                        $('.Inestado').show();
+                        $('.Inestado').text('Reintentar');
+                        var ins = setTimeout(function(){
+                            $('.Inestado').hide();
+                            console.clear();
+                        },3000);
+                    }
+                    else if (textStatus === 'abort') {
+                        console.log('Ajax request aborted.');
+                        $('.Inestado').show();
+                        $('.Inestado').text('Conexión abortada');
+                        var ins = setTimeout(function(){
+                            $('.Inestado').hide();
+                            console.clear();
+                        },3000);
+                    }
+});
+    }
+});
+function Registrate(){
+    $('#THeader').css('display','block');;
+    $('#text-1').css('padding-top','5px');
+    $('#text-1').text('Registrate');
+    $('#opc-2').load('opciones/nada.html');
+    $('#opc-1').load('opciones/regresar-ini.html');
+    $('#Publica').empty();
+    $('#Publica').append(`<form autocomplete="off" id="RegistroU">
+    <div class="username let-seg col-min">Seudónimo</div>
+    <input type="text" placeholder="Ingrese seudónimo" class="nick-u let-seg" id="Alias" name="name" maxlength="15" onpaste="return false" />
+    <div id="InfoAlias"></div>
+    <div class="usernam let-seg col-min" style="margin-top:25px;">Correo electrónico</div>
+    <input type="text" placeholder="Ingrese correo" class="mail-u let-seg" id="Correo" maxlength="50" name="correo" onpaste="return false" />
+    <div id="InfoCorreo"></div>
+    <div class="usernam let-seg col-min">Contraseña</div>
+    <input type="password" placeholder="Ingrese contraseña" class="passk-u let-seg" id="ContraS" maxlength="15" name="passw" onpaste="return false" />
+    <i class="ico-pass" id="OjoPun"></i>
+    <div id="InfoContrar"></div>
+    <button type="submit" class="ColorDominante" id="En-sub">
+        <i class="ico-send"></i>
+    </button>
+</form>`);
+    
+}
+function helpayuda(){
+    $('#THeader').css('display','block');;
+    $('#text-1').css('padding-top','5px');
+    $('#text-1').text('Ayuda');
+    $('#opc-2').load('opciones/nada.html');
+    $('#opc-1').load('opciones/regresar-ini.html');
+    $('#Publica').empty();
+    $('#Publica').append(`<form id="helpatencion" autocomplete="off">
+    <div class="username let-seg col-min">Correo electrónico</div>
+    <input type="text" placeholder="Ingrese correo" name="name" class="mail-u let-seg" id="CorrM" maxlength="50" onpaste="return false" />
+    <div id="InfoCorreo"></div>
+    <div class="usernam let-seg col-min" style="padding-bottom: 10px;">Asunto</div>
+    <input type="text" class="form-control asun let-seg" id="asuntos" name="asunto"  placeholder="Ingrese asunto" maxlength="25" onpaste="return false" />
+    <div id="InfoAsunto"></div>
+    <div class="usernam let-seg col-min">Descripción</div>
+    <textarea maxlength="150" id="Coment" class="descric let-seg" name="descri" placeholder="Ingrese descripción" onpaste="return false"></textarea>
+    <div id="InfoDescri"></div>
+    <button type="submit" class="ColorDominante" id="En-sub">
+        <i class="ico-send"></i>
+    </button>
+</form>`);
+    
+}
+$('#Publica').on('submit','#helpatencion', function(e){
+    e.preventDefault();
+    var data = $(this).serialize();
+    var devic = device.platform;
+    var mail = $('#CorrM').val(); var asun = $('#asuntos').val(); var desc = $('#Coment').val();
+    var vmail = /gmail.com/.test(mail); var vasun = asun.length ==0;  var vdes = desc.lentgh == 0;
+    if(navigator.onLine){
+        if(vmail == false & asun.length ==  0 & desc.length == 0){
+            $('#CorrM, #asuntos, #Coment').css('box-shadow', '0 0 0 0.2rem rgba(231,76,60, 0.25)');
+            var s = setTimeout(function(){
+                   $('#CorrM, #asuntos, #Coment').css('box-shadow', 'none');
+            },5000);
+        }
+        else if(vmail == false){
+            $('#CorrM ').css('box-shadow', '0 0 0 0.2rem rgba(231,76,60, 0.25)');
+            var s = setTimeout(function(){
+                   $('#CorrM').css('box-shadow', 'none');
+            },5000);
+        }
+        else if(asun.length ==  0 & asun.length <= 3 ){
+            $('#asuntos ').css('box-shadow', '0 0 0 0.2rem rgba(231,76,60, 0.25)');
+            var s = setTimeout(function(){
+                   $('#asuntos').css('box-shadow', 'none');
+            },5000); 
+        }
+        else if(desc.length ==  0 & desc.length <= 10 ){
+            $('#asuntos ').css('box-shadow', '0 0 0 0.2rem rgba(231,76,60, 0.25)');
+            var s = setTimeout(function(){
+                   $('#asuntos').css('box-shadow', 'none');
+            },5000); 
+        }
+        else{
+            $.ajax({
+                url:'https://add.sakuraitachi.com/mhelpcliente',
+                data:data+'&device='+devic,
+                type:'GET',
+                timeout:20000,
+            })
+            .done(function(data){
+                if(data == 'ok'){
+                    document.getElementById('helpatencion').reset();
+                }
+                else{
+                    
+                }
+            })
+            .fail(function( jqXHR, textStatus, errorThrown ) {
+                if (jqXHR.status == 500) {
+                    console.log('Internal Server Error [500].');
+                    $('.Inestado').show();
+                    $('.Inestado').text('Servidor colapsado.');
+                    var ins = setTimeout(function(){
+                        $('.Inestado').hide();
+                        $('.Inestado').show();
+                        $('.Inestado').text('Reintente luego.');
+                        var y = setTimeout(function(){
+                            $('.Inestado').hide();
+                            console.clear();
+                        },3000)
+                    },3000);
+                }
+                else if (textStatus === 'timeout') {
+                    console.log('Time out error.');
+                    $('.Inestado').show();
+                    $('.Inestado').text('Reintentar');
+                    var ins = setTimeout(function(){
+                        $('.Inestado').hide();
+                        console.clear();
+                    },3000);
+                }
+                else if (textStatus === 'abort') {
+                    console.log('Ajax request aborted.');
+                    $('.Inestado').show();
+                    $('.Inestado').text('Conexión abortada');
+                    var ins = setTimeout(function(){
+                        $('.Inestado').hide();
+                        console.clear();
+                    },3000);
+                }
+            });
+        }   
+    }
+});
+function terminos(){
+    $('#THeader').css('display','block');
+    $('#text-1').css('padding-top','5px');
+    $('#text-1').text('Términos y condiciones');
+    $('#opc-2').load('opciones/nada.html');
+    $('#opc-1').load('opciones/regresar.html');
+    $('#Publica').empty();
+     var dom = localStorage.getItem('dominio');
+    if(navigator.onLine){
+    $.ajax({
+        url:dom+'terminosin',
+        type:'GET',
+        dataType:'json',
+        timeout:20000
+    })
+    .done(function(data){
+        if(data == 0){
+           datatermino();
+        }else{
+            cl = JSON.parse(JSON.stringify(data));
+            $('#Publica').empty();
+            let cli = $('#Publica');
+            cli.html();
+            cl.forEach(termino =>{
+                cli.append(`<div class="csi col-seg let-seg">${termino.name}</div>`);
+            });
+        }
+    })
+    .fail(function( jqXHR, textStatus, errorThrown ) {
+            if (jqXHR.status == 500) {
+                console.log('Internal Server Error [500].');
+                $('.Inestado').show();
+                $('.Inestado').text('Servidor colapsado.');
+                var ins = setTimeout(function(){
+                    $('.Inestado').hide();
+                    $('.Inestado').show();
+                    $('.Inestado').text('Reintente luego.');
+                    var y = setTimeout(function(){
+                        $('.Inestado').hide();
+                        console.clear();
+                    },3000)
+                },3000);
+            }
+            else if (textStatus === 'timeout') {
+                console.log('Time out error.');
+                $('.Inestado').show();
+                $('.Inestado').text('Reintentar');
+                var ins = setTimeout(function(){
+                    $('.Inestado').hide();
+                    console.clear();
+                },3000);
+            }
+            else if (textStatus === 'abort') {
+                console.log('Ajax request aborted.');
+                $('.Inestado').show();
+                $('.Inestado').text('Conexión abortada');
+                var ins = setTimeout(function(){
+                    $('.Inestado').hide();
+                    console.clear();
+                },3000);
+            }
+    });
+    }
+    else{
+        $('#NoHay').empty();
+        $('#NoHay').append(`<div class="btn btn-primary" id="center-btn">No hay conexion de internet </div>`);
+        var t = setTimeout(function(){
+            $('#NoHay').empty();
+        },5000);
+    }
+}
+function datatermino(){
+    $('#Publica').empty();
+    $('#Publica').append(`<div class="SinR">No hay  términos ni condiciones. </div>`);
+}
+$('#Publica').on('click','#Empezar', function(){
+    localStorage.setItem("sesion", 'guia');
+    welcome();
+});
+$('#Publica').on('click','#terminos', function(){
+    localStorage.setItem("sesion", 'terminos');
+    welcome();
+});
+$('#opc-1').on('click','#regresaini', function(){
+    localStorage.setItem("sesion", 'acepta');
+    welcome();
+});
+$('#opc-1').on('click','#regresainic', function(){
+    localStorage.setItem("sesion", 'inicio');
+    welcome();
+});
+function Opcionper(){
+    
+    var app = localStorage.getItem('apps');
+    var dom = localStorage.getItem('dominio');
+    if(navigator.onLine){
+    $.ajax({
+        url:dom+'comprobar/'+app,
+        type:'GET',
+        timeout:20000
+    })
+    .done(function(data){
+        if(data == 'fuera'){
+            $('#THeader').css('display','none');
+            $('#Publica').empty();
+            $('#Publica').append(`<i class="appfser"></i><div class="smservi col-min full-primary bg-blod">APP Fuera de servicio.</div>`);
+        }
+        else if(data == 'Mantenimiento'){
+            $('#THeader').css('display','none');
+            $('#Publica').empty();
+            $('#Publica').append(`<i class="apprepara"></i><div class="smservi col-min full-primary bg-bold">APP en Mantenimiento.</div>`);
+        }
+        else if(data == 'tiendacerrada'){
+             welcome();
+            $('footer').show();
+            $('footer').empty();
+            $('footer').css('background-color','#F4511E');
+            $('footer').append(`<i class="appadv"></i><div class="smservis col-ter let-seg bg-bold">tienda cerrada no podras realizar compras</div>`);
+        var ins = setTimeout(function(){
+                    $('footer').hide();
+            },6000);
+        }
+        else{
+             welcome();
+        }
+    })
+    .fail(function( jqXHR, textStatus, errorThrown ) {
+            if (jqXHR.status == 500) {
+                console.log('Internal Server Error [500].');
+                $('.Inestado').show();
+                $('.Inestado').text('Servidor colapsado.');
+                var ins = setTimeout(function(){
+                    $('.Inestado').hide();
+                    $('.Inestado').show();
+                    $('.Inestado').text('Reintente luego.');
+                    var y = setTimeout(function(){
+                        $('.Inestado').hide();
+                        console.clear();
+                    },3000)
+                },3000);
+            }
+            else if (textStatus === 'timeout') {
+                console.log('Time out error.');
+                $('.Inestado').show();
+                $('.Inestado').text('Reintentar');
+                var ins = setTimeout(function(){
+                    $('.Inestado').hide();
+                    console.clear();
+                },3000);
+            }
+            else if (textStatus === 'abort') {
+                console.log('Ajax request aborted.');
+                $('.Inestado').show();
+                $('.Inestado').text('Conexión abortada');
+                var ins = setTimeout(function(){
+                    $('.Inestado').hide();
+                    console.clear();
+                },3000);
+            }
+    });
+    }
+    else{
+        $('#NoHay').empty();
+        $('#NoHay').append(`<div class="btn btn-primary" id="center-btn">No hay conexion de internet </div>`);
+        var t = setTimeout(function(){
+            $('#NoHay').empty();
+        },5000);
+    }
+    
+}
+function Opcioncompra(){
+    if(navigator.onLine){
+         var app = localStorage.getItem('apps');
+         var dom = localStorage.getItem('dominio');
+        $.ajax({
+            url:dom+'compraopc',
+            type:'GET',
+            timeout:20000
+        })
+        .done(function(data){
+            console.log('datos cargado uno');
+            localStorage.setItem("datosiniciales", JSON.stringify(data));
+            $('#Progreso').css('width','50%');
+            $('#Progreso').text('50%');
+            HorarioAtencion();
+        })
+        .fail(function( jqXHR, textStatus, errorThrown ) {
+                if (jqXHR.status == 500) {
+                    console.log('Internal Server Error [500].');
+                    $('.Inestado').show();
+                    $('.Inestado').text('Servidor colapsado.');
+                    var ins = setTimeout(function(){
+                        $('.Inestado').hide();
+                        $('.Inestado').show();
+                        $('.Inestado').text('Reintente luego.');
+                        var y = setTimeout(function(){
+                            $('.Inestado').hide();
+                            console.clear();
+                        },3000)
+                    },3000);
+                }
+                else if (textStatus === 'timeout') {
+                    console.log('Time out error.');
+                    $('.Inestado').show();
+                    $('.Inestado').text('Reintentar');
+                    var ins = setTimeout(function(){
+                        $('.Inestado').hide();
+                        console.clear();
+                    },3000);
+                }
+                else if (textStatus === 'abort') {
+                    console.log('Ajax request aborted.');
+                    $('.Inestado').show();
+                    $('.Inestado').text('Conexión abortada');
+                    var ins = setTimeout(function(){
+                        $('.Inestado').hide();
+                        console.clear();
+                    },3000);
+                }
+});
+    }
+    else{
+        $('#NoHay').empty();
+        $('#NoHay').append(`<div class="btn btn-primary" id="center-btn">No hay conexion de internet </div>`);
+        var t = setTimeout(function(){
+            $('#NoHay').empty();
+        },5000);
+    }
+}
+function HorarioAtencion(){
+    if(navigator.onLine){
+         var dom = localStorage.getItem('dominio');
+        $.ajax({
+            url:dom+'/horariosopc',
+            type:'GET',
+            timeout:20000
+        })
+        .done(function(data){
+            localStorage.setItem("horarios", JSON.stringify(data));
+            $('#Progreso').css('style','100%');
+            $('#Progreso').text('100%');
+            localStorage.setItem("sesion", 'guia');
+            welcome();
+        })
+        .fail(function( jqXHR, textStatus, errorThrown ) {
+                if (jqXHR.status == 500) {
+                    console.log('Internal Server Error [500].');
+                    $('.Inestado').show();
+                    $('.Inestado').text('Servidor colapsado.');
+                    var ins = setTimeout(function(){
+                        $('.Inestado').hide();
+                        $('.Inestado').show();
+                        $('.Inestado').text('Reintente luego.');
+                        var y = setTimeout(function(){
+                            $('.Inestado').hide();
+                            console.clear();
+                        },3000)
+                    },3000);
+                }
+                else if (textStatus === 'timeout') {
+                    console.log('Time out error.');
+                    $('.Inestado').show();
+                    $('.Inestado').text('Reintentar');
+                    var ins = setTimeout(function(){
+                        $('.Inestado').hide();
+                        console.clear();
+                    },3000);
+                }
+                else if (textStatus === 'abort') {
+                    console.log('Ajax request aborted.');
+                    $('.Inestado').show();
+                    $('.Inestado').text('Conexión abortada');
+                    var ins = setTimeout(function(){
+                        $('.Inestado').hide();
+                        console.clear();
+                    },3000);
+                }
+});
+    }
+    else{
+        $('#NoHay').empty();
+        $('#NoHay').append(`<div class="btn btn-primary" id="center-btn">No hay conexion de internet </div>`);
+        var t = setTimeout(function(){
+            $('#NoHay').empty();
+        },5000);
+    }
+}
+$('#Publica').on('click', '#OjoPun', function(e){
+    e.preventDefault();
+    navigator.vibrate(400);
+    if(ojo == 0){
+        $('#ContraS').attr('type','text');  
+        ojo =1;
+    }
+    else{
+        $('#ContraS').attr('type','password'); 
+        ojo =0;
+    }
+} );
+
+
 $('#Publica').on('submit','#ComprarApp', function(e){
     e.preventDefault();
     navigator.vibrate(400);
-    //tema, tipo, nombre, tlefono, correo, plan, dominio, codigo.
     var tema =localStorage.getItem('tema');
     var tipo =localStorage.getItem('tipo'); 
     var app = localStorage.getItem('apps');
@@ -447,14 +974,15 @@ $('#Publica').on('submit','#ComprarApp', function(e){
         if(navigator.onLine){
             $('#AceptaComple').attr("disabled", true);
             $.ajax({
-                url:'https://add.sakuraitachi.com/guiacompra',
+                url:dom+'guiacompra',
                 data:serealiza+'&device='+devi+'&cod='+app+'&tema='+tema+'&dominio='+dom+'&negocio='+tipo,
                 type:'GET',
                 timeout:20000
             })
             .done(function(data){
+                document.getElementById('ComprarApp').reset();
+                $('#AceptaComple').attr("disabled", false);
                 if(data == 'ok'){
-                     document.getElementById('helpatencion').reset();
                     localStorage.setItem("sesion", 'inicio');
                     welcome();
                     $('footer').show();
@@ -745,407 +1273,3 @@ $('#Publica').on('submit','#RegistroU', function(e){
     }
     
 });
-function OlvidasteContra(){
-    $('#THeader').css('display','block');;
-    $('#text-1').css('padding-top','5px');
-    $('#text-1').text('Restaurar contraseña');
-    $('#opc-2').load('opciones/nada.html');
-    $('#opc-1').load('opciones/regresar-ini.html');
-    $('#Publica').empty();
-    $('#Publica').append(`<form id="RestaurarPass" autocomplete="off">
-    <div class="username let-seg col-min">Seudónimo o correo</div>
-    <input type="text" placeholder="Ingrese Seudónimo o correo" name="namein" class="nick-u let-seg" id="Olvid" maxlength="50" />
-    <div id="InfoAliasCort"></div>
-    <button type="submit" class="ColorDominante" id="En-sub">
-        <i class="ico-send"></i>
-    </button>
-</form>`);
-    
-}
-$('#Publica').on('submit','#RestaurarPass', function(e){
-    e.preventDefault();
-    var d = $('#Olvid').val();
-    var se = $('#Olvid').serialize();
-    var devi = device.platform;
-    if(d.length < 4 ){
-       $('.Inestado').show();
-       $('.Inestado').text('Minimo 5 caracteres.');
-        var ins = setTimeout(function(){
-            $('.Inestado').hide();
-        },6000);
-    }
-    else{
-        $.ajax({
-            url:'https://add.sakuraitachi.com/mrestaurar',
-            data:se+'&device='+devi,
-            type:'GET',
-            timeout:20000,
-            dataType: "json"
-        })
-        .done(function(data){
-            $('.Inestado').show();
-            $('.Inestado').text(data);
-            var ins = setTimeout(function(){
-                $('.Inestado').hide();
-            },6000);
-        })
-        .fail(function( jqXHR, textStatus, errorThrown ) {
-                    if (jqXHR.status == 500) {
-                        console.log('Internal Server Error [500].');
-                        $('.Inestado').show();
-                        $('.Inestado').text('Servidor colapsado.');
-                        var ins = setTimeout(function(){
-                            $('.Inestado').hide();
-                            $('.Inestado').show();
-                            $('.Inestado').text('Reintente luego.');
-                            var y = setTimeout(function(){
-                                $('.Inestado').hide();
-                                console.clear();
-                            },3000)
-                        },3000);
-                    }
-                    else if (textStatus === 'timeout') {
-                        console.log('Time out error.');
-                        $('.Inestado').show();
-                        $('.Inestado').text('Reintentar');
-                        var ins = setTimeout(function(){
-                            $('.Inestado').hide();
-                            console.clear();
-                        },3000);
-                    }
-                    else if (textStatus === 'abort') {
-                        console.log('Ajax request aborted.');
-                        $('.Inestado').show();
-                        $('.Inestado').text('Conexión abortada');
-                        var ins = setTimeout(function(){
-                            $('.Inestado').hide();
-                            console.clear();
-                        },3000);
-                    }
-});
-    }
-});
-function Registrate(){
-    $('#THeader').css('display','block');;
-    $('#text-1').css('padding-top','5px');
-    $('#text-1').text('Registrate');
-    $('#opc-2').load('opciones/nada.html');
-    $('#opc-1').load('opciones/regresar-ini.html');
-    $('#Publica').empty();
-    $('#Publica').append(`<form autocomplete="off" id="RegistroU">
-    <div class="username let-seg col-min">Seudónimo</div>
-    <input type="text" placeholder="Ingrese seudónimo" class="nick-u let-seg" id="Alias" name="name" maxlength="15" onpaste="return false" />
-    <div id="InfoAlias"></div>
-    <div class="usernam let-seg col-min" style="margin-top:25px;">Correo electrónico</div>
-    <input type="text" placeholder="Ingrese correo" class="mail-u let-seg" id="Correo" maxlength="50" name="correo" onpaste="return false" />
-    <div id="InfoCorreo"></div>
-    <div class="usernam let-seg col-min">Contraseña</div>
-    <input type="password" placeholder="Ingrese contraseña" class="passk-u let-seg" id="ContraS" maxlength="15" name="passw" onpaste="return false" />
-    <i class="ico-pass" id="OjoPun"></i>
-    <div id="InfoContrar"></div>
-    <button type="submit" class="ColorDominante" id="En-sub">
-        <i class="ico-send"></i>
-    </button>
-</form>`);
-    
-}
-function helpayuda(){
-    $('#THeader').css('display','block');;
-    $('#text-1').css('padding-top','5px');
-    $('#text-1').text('Ayuda');
-    $('#opc-2').load('opciones/nada.html');
-    $('#opc-1').load('opciones/regresar-ini.html');
-    $('#Publica').empty();
-    $('#Publica').append(`<form id="helpatencion" autocomplete="off">
-    <div class="username let-seg col-min">Correo electrónico</div>
-    <input type="text" placeholder="Ingrese correo" name="name" class="mail-u let-seg" id="CorrM" maxlength="50" onpaste="return false" />
-    <div id="InfoCorreo"></div>
-    <div class="usernam let-seg col-min" style="padding-bottom: 10px;">Asunto</div>
-    <input type="text" class="form-control asun let-seg" id="asuntos" name="asunto"  placeholder="Ingrese asunto" maxlength="25" onpaste="return false" />
-    <div id="InfoAsunto"></div>
-    <div class="usernam let-seg col-min">Descripción</div>
-    <textarea maxlength="150" id="Coment" class="descric let-seg" name="descri" placeholder="Ingrese descripción" onpaste="return false"></textarea>
-    <div id="InfoDescri"></div>
-    <button type="submit" class="ColorDominante" id="En-sub">
-        <i class="ico-send"></i>
-    </button>
-</form>`);
-    
-}
-$('#Publica').on('submit','#helpatencion', function(e){
-    e.preventDefault();
-    var data = $(this).serialize();
-    var devic = device.platform;
-    var mail = $('#CorrM').val(); var asun = $('#asuntos').val(); var desc = $('#Coment').val();
-    var vmail = /gmail.com/.test(mail); var vasun = asun.length ==0;  var vdes = desc.lentgh == 0;
-    if(navigator.onLine){
-        if(vmail == false & asun.length ==  0 & desc.length == 0){
-            $('#CorrM, #asuntos, #Coment').css('box-shadow', '0 0 0 0.2rem rgba(231,76,60, 0.25)');
-            var s = setTimeout(function(){
-                   $('#CorrM, #asuntos, #Coment').css('box-shadow', 'none');
-            },5000);
-        }
-        else if(vmail == false){
-            $('#CorrM ').css('box-shadow', '0 0 0 0.2rem rgba(231,76,60, 0.25)');
-            var s = setTimeout(function(){
-                   $('#CorrM').css('box-shadow', 'none');
-            },5000);
-        }
-        else if(asun.length ==  0 & asun.length <= 3 ){
-            $('#asuntos ').css('box-shadow', '0 0 0 0.2rem rgba(231,76,60, 0.25)');
-            var s = setTimeout(function(){
-                   $('#asuntos').css('box-shadow', 'none');
-            },5000); 
-        }
-        else if(desc.length ==  0 & desc.length <= 10 ){
-            $('#asuntos ').css('box-shadow', '0 0 0 0.2rem rgba(231,76,60, 0.25)');
-            var s = setTimeout(function(){
-                   $('#asuntos').css('box-shadow', 'none');
-            },5000); 
-        }
-        else{
-            $.ajax({
-                url:'https://add.sakuraitachi.com/mhelpcliente',
-                data:data+'&device='+devic,
-                type:'GET',
-                timeout:20000,
-            })
-            .done(function(data){
-                if(data == 'ok'){
-                    document.getElementById('helpatencion').reset();
-                }
-                else{
-                    
-                }
-            })
-            .fail(function( jqXHR, textStatus, errorThrown ) {
-                if (jqXHR.status == 500) {
-                    console.log('Internal Server Error [500].');
-                    $('.Inestado').show();
-                    $('.Inestado').text('Servidor colapsado.');
-                    var ins = setTimeout(function(){
-                        $('.Inestado').hide();
-                        $('.Inestado').show();
-                        $('.Inestado').text('Reintente luego.');
-                        var y = setTimeout(function(){
-                            $('.Inestado').hide();
-                            console.clear();
-                        },3000)
-                    },3000);
-                }
-                else if (textStatus === 'timeout') {
-                    console.log('Time out error.');
-                    $('.Inestado').show();
-                    $('.Inestado').text('Reintentar');
-                    var ins = setTimeout(function(){
-                        $('.Inestado').hide();
-                        console.clear();
-                    },3000);
-                }
-                else if (textStatus === 'abort') {
-                    console.log('Ajax request aborted.');
-                    $('.Inestado').show();
-                    $('.Inestado').text('Conexión abortada');
-                    var ins = setTimeout(function(){
-                        $('.Inestado').hide();
-                        console.clear();
-                    },3000);
-                }
-            });
-        }   
-    }
-});
-function terminos(){
-    $('#THeader').css('display','block');
-    $('#text-1').css('padding-top','5px');
-    $('#text-1').text('Términos y condiciones');
-    $('#opc-2').load('opciones/nada.html');
-    $('#opc-1').load('opciones/regresar.html');
-    $('#Publica').empty();
-     var dom = localStorage.getItem('dominio');
-    if(navigator.onLine){
-    $.ajax({
-        url:dom+'terminosin',
-        type:'GET',
-        dataType:'json',
-        timeout:20000
-    })
-    .done(function(data){
-        if(data == 0){
-           datatermino();
-        }else{
-            cl = JSON.parse(JSON.stringify(data));
-            $('#Publica').empty();
-            let cli = $('#Publica');
-            cli.html();
-            cl.forEach(termino =>{
-                cli.append(`<div class="csi col-seg let-seg">${termino.name}</div>`);
-            });
-        }
-    })
-    .fail(function( jqXHR, textStatus, errorThrown ) {
-            if (jqXHR.status == 500) {
-                console.log('Internal Server Error [500].');
-                $('.Inestado').show();
-                $('.Inestado').text('Servidor colapsado.');
-                var ins = setTimeout(function(){
-                    $('.Inestado').hide();
-                    $('.Inestado').show();
-                    $('.Inestado').text('Reintente luego.');
-                    var y = setTimeout(function(){
-                        $('.Inestado').hide();
-                        console.clear();
-                    },3000)
-                },3000);
-            }
-            else if (textStatus === 'timeout') {
-                console.log('Time out error.');
-                $('.Inestado').show();
-                $('.Inestado').text('Reintentar');
-                var ins = setTimeout(function(){
-                    $('.Inestado').hide();
-                    console.clear();
-                },3000);
-            }
-            else if (textStatus === 'abort') {
-                console.log('Ajax request aborted.');
-                $('.Inestado').show();
-                $('.Inestado').text('Conexión abortada');
-                var ins = setTimeout(function(){
-                    $('.Inestado').hide();
-                    console.clear();
-                },3000);
-            }
-    });
-    }
-    else{
-        $('#NoHay').empty();
-        $('#NoHay').append(`<div class="btn btn-primary" id="center-btn">No hay conexion de internet </div>`);
-        var t = setTimeout(function(){
-            $('#NoHay').empty();
-        },5000);
-    }
-}
-function datatermino(){
-    $('#Publica').empty();
-    $('#Publica').append(`<div class="SinR">No hay  términos ni condiciones. </div>`);
-}
-$('#Publica').on('click','#Olvidast', function(){
-    localStorage.setItem("sesion", 'restauracontra');
-    welcome();
-});
-$('#Publica').on('click','#helpay', function(){
-    localStorage.setItem("sesion", 'miayuda');
-    welcome();
-});
-$('#Publica').on('click','#registaho', function(){
-    localStorage.setItem("sesion", 'registrame');
-    welcome();
-});
-$('#Publica').on('click','#Empezar', function(){
-    localStorage.setItem("sesion", 'guia');
-    welcome();
-});
-$('#Publica').on('click','#terminos', function(){
-    localStorage.setItem("sesion", 'terminos');
-    welcome();
-});
-$('#opc-1').on('click','#regresaini', function(){
-    localStorage.setItem("sesion", 'acepta');
-    welcome();
-});
-$('#opc-1').on('click','#regresainic', function(){
-    localStorage.setItem("sesion", 'inicio');
-    welcome();
-});
-function Opcionper(){
-    
-    var app = localStorage.getItem('apps');
-    var dom = localStorage.getItem('dominio');
-    if(navigator.onLine){
-    $.ajax({
-        url:dom+'comprobar/'+app,
-        type:'GET',
-        timeout:20000
-    })
-    .done(function(data){
-        if(data == 'fuera'){
-            $('#THeader').css('display','none');
-            $('#Publica').empty();
-            $('#Publica').append(`<i class="appfser"></i><div class="smservi col-min full-primary bg-blod">APP Fuera de servicio.</div>`);
-        }
-        else if(data == 'Mantenimiento'){
-            $('#THeader').css('display','none');
-            $('#Publica').empty();
-            $('#Publica').append(`<i class="apprepara"></i><div class="smservi col-min full-primary bg-bold">APP en Mantenimiento.</div>`);
-        }
-        else if(data == 'tiendacerrada'){
-             welcome();
-            $('footer').show();
-            $('footer').empty();
-            $('footer').css('background-color','#F4511E');
-            $('footer').append(`<i class="appadv"></i><div class="smservis col-ter let-seg bg-bold">tienda cerrada no podras realizar compras</div>`);
-        var ins = setTimeout(function(){
-                    $('footer').hide();
-            },6000);
-        }
-        else{
-             welcome();
-        }
-    })
-    .fail(function( jqXHR, textStatus, errorThrown ) {
-            if (jqXHR.status == 500) {
-                console.log('Internal Server Error [500].');
-                $('.Inestado').show();
-                $('.Inestado').text('Servidor colapsado.');
-                var ins = setTimeout(function(){
-                    $('.Inestado').hide();
-                    $('.Inestado').show();
-                    $('.Inestado').text('Reintente luego.');
-                    var y = setTimeout(function(){
-                        $('.Inestado').hide();
-                        console.clear();
-                    },3000)
-                },3000);
-            }
-            else if (textStatus === 'timeout') {
-                console.log('Time out error.');
-                $('.Inestado').show();
-                $('.Inestado').text('Reintentar');
-                var ins = setTimeout(function(){
-                    $('.Inestado').hide();
-                    console.clear();
-                },3000);
-            }
-            else if (textStatus === 'abort') {
-                console.log('Ajax request aborted.');
-                $('.Inestado').show();
-                $('.Inestado').text('Conexión abortada');
-                var ins = setTimeout(function(){
-                    $('.Inestado').hide();
-                    console.clear();
-                },3000);
-            }
-    });
-    }
-    else{
-        $('#NoHay').empty();
-        $('#NoHay').append(`<div class="btn btn-primary" id="center-btn">No hay conexion de internet </div>`);
-        var t = setTimeout(function(){
-            $('#NoHay').empty();
-        },5000);
-    }
-    
-}
-$('#Publica').on('click', '#OjoPun', function(e){
-    e.preventDefault();
-    navigator.vibrate(400);
-    if(ojo == 0){
-        $('#ContraS').attr('type','text');  
-        ojo =1;
-    }
-    else{
-        $('#ContraS').attr('type','password'); 
-        ojo =0;
-    }
-} );
