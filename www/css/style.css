@@ -1109,6 +1109,10 @@ li.list-ay{
     background: url('../img/herramienta-de-reloj-circular.png');
     background-size: 18px 18px;
 }
+.ico-logout{
+    background: url('../img/logout.png');
+    background-size: 18px 18px;
+}
 .btn-horario, .btn-coins, .btn-infos{
     position: fixed;
     top: 10%;
@@ -1168,6 +1172,14 @@ li.list-ay{
     margin-top: 20px;
     margin-left: 15%;
     height: 20px;
+}
+#InfoContrar, #InfoAlias{
+    display: inline-block;
+    margin-top: 4px;
+    width: 100%;
+}
+#alertas{
+    font-size: 12px;
 }
 @media only screen and (min-width: 320px) {
     .tit-sim{

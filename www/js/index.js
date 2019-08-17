@@ -2,6 +2,8 @@ var ojo = 0;
 //localStorage.setItem("sesion",'not');
 var codigo = localStorage.setItem("apps",'appmuestra011');
 var dominio = localStorage.setItem('dominio','https://add.sakuraitachi.com/'); 
+//http://adsimple.local/
+//var dominio = localStorage.setItem('dominio','http://adsimple.local/'); 
 var vc = localStorage.setItem("vcompra",'1');
 var che = 1;
 function checkConnection() {
@@ -31,7 +33,7 @@ var app = {
     onDeviceReady: function() {
         checkConnection();
         welcome();
-        Opcionper();
+       //Opcionper();
         document.addEventListener("backbutton", onBackKeyDown, false);
     },
     // Update DOM on a Received Event
@@ -117,6 +119,20 @@ function Guia(){
     }
     $('#THeader').css('display','none');
     $('#Publica').empty();
+    /*var dinial = localStorage.getItem('datosiniciales');
+    if(dinial == null){
+        $('#Publica').append(`
+                            <div class="tit-sim col-min Jum-primary bg-bold">Tienda simple</div>
+                            <i class="ini-wel"></i>
+                            <div id="GuiaU"> 
+                                <div class="boca-saluda"><div class="txt-ini col-min ">Hola `+mens+`</div> </div>
+                                <div class="progress cargan">
+                                  <div class="progress-bar" style="width:70%">70%</div>
+                                </div>
+                            </div>`);
+    }
+    else{*/
+    
     $('#Publica').append(`<div class="boca-hora let-seg col-min">
                             Lun a Vie. de 8:00 am a 7:00 pm 
                         </div>
@@ -143,6 +159,7 @@ function Guia(){
                         </div></div>
                          <div class="btn btn-primary continua" id="Ntipon">Siguiente</div>
                          <div class="btn btn-light continua" id="Nomite">Omitir </div>`);
+    //}
     if(ho < 8 | ho < 20){
         var t = setTimeout(function(){
             $('.boca-hora').show();
@@ -179,12 +196,13 @@ function inicio(){
     $('#Publica').empty();
     $('#Publica').append(`<form method="get" id="IniciaSesion">
         <div class="username let-primary col-min bg-bold" style="margin-top: 40px;">Seudónimo o correo</div>
-        <input type="text" placeholder="Ingrese Seudónimo o correo" class="nick-u let-seg bord" id="AliasCor" name="namein" maxlength="50" onpaste="return false"  />
+        <input type="text" placeholder="Ingrese Seudónimo o correo" class="nick-u let-seg bord" id="AliasCor" name="namein" maxlength="50" onpaste="return false" value="administrador"  />
         <div id="InfoAliasCorre"></div>
         <div class="pass-u let-primary col-min bg-bold">Contraseña</div>
-        <input type="password" name="contra" placeholder="Ingrese contraseña" class="passk-u col-primary let-seg bord" id="ContraS" maxlength="15" onpaste="return false" />
+        <input type="password" name="contra" placeholder="Ingrese contraseña" class="passk-u col-primary let-seg bord" id="ContraS" maxlength="15" onpaste="return false" value="Clave123" />
         <i class="ico-pass" id="OjoPun"></i>
         <div id="InfoContras"></div>
+        
         <button type="submit" class="ColorDominante" id="En-sub">
             <i class="ico-send"></i>
         </button>
@@ -231,17 +249,6 @@ $('.Despl-menu').on('click','#Horario', function(){
     menu = 1;
     $('.Despl-menu').animate({left:'-80%'},'show');
 });
-$('#opc-1').on('click','#Menu-btn', function(){
-    if(menu == 1){
-        menu = 0;
-        $('.Despl-menu').load('menu/sin-acceso.html');
-        $('.Despl-menu').animate({left:'0%'},'show');
-    }
-    else{
-        menu = 1;
-        $('.Despl-menu').animate({left:'-80%'},'show');
-    }
-});
 $('#Publica').on('click','#Ntipon', function(e){
     e.preventDefault();
     $('#GuiaU').empty();
@@ -278,22 +285,16 @@ $('#Publica').on('click','.list-met', function(e){
     localStorage.setItem("tema", n);
     $('#GuiaU').empty();
     $('#GuiaU').append(`<div class="boca-cuenta"><div class="txt-ini col-min ">Tu negocio podrás gestionar tus clientes, inventario, ayudar a tus clientes así como también dar tu ubicación física, horario de atención y opciones como abrir o cerrar tu negocio. </div></div>
-    <div class="btn btn-primary desicion" id="Probar">Probar</div>
-    <div class="btn btn-primary desicion" id="AceptaCon">Continuar</div>`);
-});
-$('#Publica').on('click','#Probar', function(e){
-    e.preventDefault();
-    localStorage.setItem("sesion", 'inicio');
-    welcome();
-    $('footer').show();
-    $('footer').empty();
-    $('footer').css('background-color','#F4511E');
-    $('footer').append(`<i class="appacom"></i><div class="smservis col-ter let-seg bg-bold">Registrate he inicia sesion para conocer nuestra tienda.</div>`);
-    var ins = setTimeout(function(){
-        $('footer').hide();
-    },4000);
+    <div class="btn btn-primary continua" id="AceptaCon">Continuar</div>`);
 });
 $('#Publica').on('click','#AceptaCon', function(e){
+    e.preventDefault();
+    $('#GuiaU').empty();
+    $('#GuiaU').append(`<div class="boca-saludas"><div class="txt-ini col-min bg-bold">¿ Desea realizar la compra ahora. ? </div></div>
+    <div class="btn btn-primary desicion" id="AceptaNot">No</div>
+    <div class="btn btn-primary desicion" id="AceptaYes">Si</div>`);
+});
+$('#Publica').on('click','#Regres', function(e){
     e.preventDefault();
     $('#GuiaU').empty();
     $('#GuiaU').append(`<div class="boca-saludas"><div class="txt-ini col-min bg-bold">¿ Desea realizar la compra ahora. ? </div></div>
@@ -339,18 +340,11 @@ $('#Publica').on('click','#AceptaYes', function(e){
          <button type="submit" class="ColorDominante" id="AceptaComple"> 
             <i class="ico-send"></i>
         </button>
-        <div class="ColorDominante" id="Regres"> 
+        <button type="button" class="ColorDominante" id="Regres"> 
             <i class="ico-atras"></i>
-        </div>
+        </button>
         </form>
     </div>`);
-});
-$('#Publica').on('click','#Regres', function(e){
-    e.preventDefault();
-    $('#GuiaU').empty();
-    $('#GuiaU').append(`<div class="boca-saludas"><div class="txt-ini col-min bg-bold">¿ Desea realizar la compra ahora. ? </div></div>
-    <div class="btn btn-primary desicion" id="AceptaNot">No</div>
-    <div class="btn btn-primary desicion" id="AceptaYes">Si</div>`);
 });
 $('#Publica').on('change','#clientes', function(e){
     e.preventDefault();
@@ -393,69 +387,6 @@ function OlvidasteContra(){
 </form>`);
     
 }
-$('#Publica').on('submit','#RestaurarPass', function(e){
-    e.preventDefault();
-    var d = $('#Olvid').val();
-    var se = $('#Olvid').serialize();
-    var devi = device.platform;
-    if(d.length < 4 ){
-       $('.Inestado').show();
-       $('.Inestado').text('Minimo 5 caracteres.');
-        var ins = setTimeout(function(){
-            $('.Inestado').hide();
-        },6000);
-    }
-    else{
-        $.ajax({
-            url:'https://add.sakuraitachi.com/mrestaurar',
-            data:se+'&device='+devi,
-            type:'GET',
-            timeout:20000,
-            dataType: "json"
-        })
-        .done(function(data){
-            $('.Inestado').show();
-            $('.Inestado').text(data);
-            var ins = setTimeout(function(){
-                $('.Inestado').hide();
-            },6000);
-        })
-        .fail(function( jqXHR, textStatus, errorThrown ) {
-                    if (jqXHR.status == 500) {
-                        console.log('Internal Server Error [500].');
-                        $('.Inestado').show();
-                        $('.Inestado').text('Servidor colapsado.');
-                        var ins = setTimeout(function(){
-                            $('.Inestado').hide();
-                            $('.Inestado').show();
-                            $('.Inestado').text('Reintente luego.');
-                            var y = setTimeout(function(){
-                                $('.Inestado').hide();
-                                console.clear();
-                            },3000)
-                        },3000);
-                    }
-                    else if (textStatus === 'timeout') {
-                        console.log('Time out error.');
-                        $('.Inestado').show();
-                        $('.Inestado').text('Reintentar');
-                        var ins = setTimeout(function(){
-                            $('.Inestado').hide();
-                            console.clear();
-                        },3000);
-                    }
-                    else if (textStatus === 'abort') {
-                        console.log('Ajax request aborted.');
-                        $('.Inestado').show();
-                        $('.Inestado').text('Conexión abortada');
-                        var ins = setTimeout(function(){
-                            $('.Inestado').hide();
-                            console.clear();
-                        },3000);
-                    }
-});
-    }
-});
 function Registrate(){
     $('#THeader').css('display','block');;
     $('#text-1').css('padding-top','5px');
@@ -467,7 +398,7 @@ function Registrate(){
     <div class="username let-seg col-min">Seudónimo</div>
     <input type="text" placeholder="Ingrese seudónimo" class="nick-u let-seg" id="Alias" name="name" maxlength="15" onpaste="return false" />
     <div id="InfoAlias"></div>
-    <div class="usernam let-seg col-min" style="margin-top:25px;">Correo electrónico</div>
+    <div class="usernam let-seg col-min" style="margin-top:15px;">Correo electrónico</div>
     <input type="text" placeholder="Ingrese correo" class="mail-u let-seg" id="Correo" maxlength="50" name="correo" onpaste="return false" />
     <div id="InfoCorreo"></div>
     <div class="usernam let-seg col-min">Contraseña</div>
@@ -756,123 +687,6 @@ function Opcionper(){
     }
     
 }
-function Opcioncompra(){
-    if(navigator.onLine){
-         var app = localStorage.getItem('apps');
-         var dom = localStorage.getItem('dominio');
-        $.ajax({
-            url:dom+'compraopc',
-            type:'GET',
-            timeout:20000
-        })
-        .done(function(data){
-            console.log('datos cargado uno');
-            localStorage.setItem("datosiniciales", JSON.stringify(data));
-            $('#Progreso').css('width','50%');
-            $('#Progreso').text('50%');
-            HorarioAtencion();
-        })
-        .fail(function( jqXHR, textStatus, errorThrown ) {
-                if (jqXHR.status == 500) {
-                    console.log('Internal Server Error [500].');
-                    $('.Inestado').show();
-                    $('.Inestado').text('Servidor colapsado.');
-                    var ins = setTimeout(function(){
-                        $('.Inestado').hide();
-                        $('.Inestado').show();
-                        $('.Inestado').text('Reintente luego.');
-                        var y = setTimeout(function(){
-                            $('.Inestado').hide();
-                            console.clear();
-                        },3000)
-                    },3000);
-                }
-                else if (textStatus === 'timeout') {
-                    console.log('Time out error.');
-                    $('.Inestado').show();
-                    $('.Inestado').text('Reintentar');
-                    var ins = setTimeout(function(){
-                        $('.Inestado').hide();
-                        console.clear();
-                    },3000);
-                }
-                else if (textStatus === 'abort') {
-                    console.log('Ajax request aborted.');
-                    $('.Inestado').show();
-                    $('.Inestado').text('Conexión abortada');
-                    var ins = setTimeout(function(){
-                        $('.Inestado').hide();
-                        console.clear();
-                    },3000);
-                }
-});
-    }
-    else{
-        $('#NoHay').empty();
-        $('#NoHay').append(`<div class="btn btn-primary" id="center-btn">No hay conexion de internet </div>`);
-        var t = setTimeout(function(){
-            $('#NoHay').empty();
-        },5000);
-    }
-}
-function HorarioAtencion(){
-    if(navigator.onLine){
-         var dom = localStorage.getItem('dominio');
-        $.ajax({
-            url:dom+'/horariosopc',
-            type:'GET',
-            timeout:20000
-        })
-        .done(function(data){
-            localStorage.setItem("horarios", JSON.stringify(data));
-            $('#Progreso').css('style','100%');
-            $('#Progreso').text('100%');
-            localStorage.setItem("sesion", 'guia');
-            welcome();
-        })
-        .fail(function( jqXHR, textStatus, errorThrown ) {
-                if (jqXHR.status == 500) {
-                    console.log('Internal Server Error [500].');
-                    $('.Inestado').show();
-                    $('.Inestado').text('Servidor colapsado.');
-                    var ins = setTimeout(function(){
-                        $('.Inestado').hide();
-                        $('.Inestado').show();
-                        $('.Inestado').text('Reintente luego.');
-                        var y = setTimeout(function(){
-                            $('.Inestado').hide();
-                            console.clear();
-                        },3000)
-                    },3000);
-                }
-                else if (textStatus === 'timeout') {
-                    console.log('Time out error.');
-                    $('.Inestado').show();
-                    $('.Inestado').text('Reintentar');
-                    var ins = setTimeout(function(){
-                        $('.Inestado').hide();
-                        console.clear();
-                    },3000);
-                }
-                else if (textStatus === 'abort') {
-                    console.log('Ajax request aborted.');
-                    $('.Inestado').show();
-                    $('.Inestado').text('Conexión abortada');
-                    var ins = setTimeout(function(){
-                        $('.Inestado').hide();
-                        console.clear();
-                    },3000);
-                }
-});
-    }
-    else{
-        $('#NoHay').empty();
-        $('#NoHay').append(`<div class="btn btn-primary" id="center-btn">No hay conexion de internet </div>`);
-        var t = setTimeout(function(){
-            $('#NoHay').empty();
-        },5000);
-    }
-}
 $('#Publica').on('click', '#OjoPun', function(e){
     e.preventDefault();
     navigator.vibrate(400);
@@ -885,11 +699,10 @@ $('#Publica').on('click', '#OjoPun', function(e){
         ojo =0;
     }
 } );
-
-
 $('#Publica').on('submit','#ComprarApp', function(e){
     e.preventDefault();
     navigator.vibrate(400);
+    //tema, tipo, nombre, tlefono, correo, plan, dominio, codigo.
     var tema =localStorage.getItem('tema');
     var tipo =localStorage.getItem('tipo'); 
     var app = localStorage.getItem('apps');
@@ -963,9 +776,9 @@ $('#Publica').on('submit','#ComprarApp', function(e){
                 timeout:20000
             })
             .done(function(data){
-                document.getElementById('ComprarApp').reset();
                 $('#AceptaComple').attr("disabled", false);
                 if(data == 'ok'){
+                     document.getElementById('ComprarApp').reset();
                     localStorage.setItem("sesion", 'inicio');
                     welcome();
                     $('footer').show();
@@ -998,7 +811,7 @@ $('#Publica').on('submit','#ComprarApp', function(e){
                 if (jqXHR.status == 500) {
                     console.log('Internal Server Error [500].');
                     $('.Inestado').show();
-                    $('.Inestado').text('Servidor colapsado.');
+                    $('.Inestado').text('Error en conexión.');
                     var ins = setTimeout(function(){
                         $('.Inestado').hide();
                         $('.Inestado').show();
@@ -1043,6 +856,7 @@ $('#Publica').on('submit','#ComprarApp', function(e){
 $('#Publica').on('submit','#IniciaSesion', function(e){
     e.preventDefault();
     navigator.vibrate(400);
+     var dom = localStorage.getItem('dominio');
     var app = localStorage.getItem('apps');
     var nic = $('#AliasCor').val();
     var contra = $('#ContraS').val();
@@ -1054,6 +868,13 @@ $('#Publica').on('submit','#IniciaSesion', function(e){
         var x = setTimeout(function(){
            $('#AliasCor, #ContraS').css('box-shadow', 'none');
        },3000);
+       $('footer').show();
+       $('footer').empty();
+       $('footer').css('background-color','#F4511E');
+       $('footer').append(`<i class="appadv"></i><div class="smservis col-ter let-seg bg-bold">Complete el formulario</div>`);
+      var ins = setTimeout(function(){
+            $('footer').hide();
+        },4000);
     }
     else if(nic.length < 7){
         $('#AliasCor').css('box-shadow', '0 0 0 0.2rem rgba(255,9,9, 0.25)'); 
@@ -1071,7 +892,7 @@ $('#Publica').on('submit','#IniciaSesion', function(e){
         if(navigator.onLine){
             $('#En-sub').attr("disabled", true);
             $.ajax({
-                url:'https://add.sakuraitachi.com/welcomein',
+                url:dom+'welcomein',
                 data:serealiza+'&device='+devi+'&cod='+app,
                 type:'GET',
                 timeout:20000
@@ -1085,6 +906,7 @@ $('#Publica').on('submit','#IniciaSesion', function(e){
                 else if(data == 'ok'){
                     localStorage.setItem("nick",nic);
                     localStorage.setItem("sesion",'yes');
+                    localStorage.setItem("conexion",'yes');
                     $('.Inestado').show();
                     $('.Inestado').text('Bienvenido');
                     welcome();
@@ -1094,10 +916,12 @@ $('#Publica').on('submit','#IniciaSesion', function(e){
                     cordova.plugins.backgroundMode.enable();
                 }
                 else{
-                    $('.Inestado').show();
-                    $('.Inestado').text(data);
+                    $('footer').show();
+                    $('footer').empty();
+                    $('footer').css('background-color','#F4511E');
+                    $('footer').append(`<i class="appadv"></i><div class="smservis col-ter let-seg bg-bold">`+data+`</div>`);
                     var ins = setTimeout(function(){
-                        $('.Inestado').hide();
+                        $('footer').hide();
                     },4000);
                 }
             })
@@ -1105,7 +929,7 @@ $('#Publica').on('submit','#IniciaSesion', function(e){
                 if (jqXHR.status == 500) {
                     console.log('Internal Server Error [500].');
                     $('.Inestado').show();
-                    $('.Inestado').text('Servidor colapsado.');
+                    $('.Inestado').text('Error en conexión');
                     var ins = setTimeout(function(){
                         $('.Inestado').hide();
                         $('.Inestado').show();
@@ -1137,122 +961,232 @@ $('#Publica').on('submit','#IniciaSesion', function(e){
             });
         }
         else{
-            $('#NoHay').empty();
-            $('#NoHay').append(`<div class="btn btn-primary" id="center-btn">No hay conexion de internet </div>`);
-            var t = setTimeout(function(){
-                $('#NoHay').empty();
-            },5000)
+            $('footer').show();
+            $('footer').empty();
+            $('footer').css('background-color','#F4511E');
+            $('footer').append(`<i class="appadv"></i><div class="smservis col-ter let-seg bg-bold">No hay conexion de internet.</div>`);
+            var ins = setTimeout(function(){
+                $('footer').hide();
+            },4000);
         }
     }
 });
-$('#Publica').on('submit','#RegistroU', function(e){
+function primer(){
+    $('#text-1').css('padding-top','5px');
+    $('#text-1').text('Primer acceso');
+    $('#opc-2').load('opciones/nada.html');
+    $('#opc-1').load('opciones/nada.html');
+    $('#Publica').empty();
+    $('#Publica').append(`<form id="PrimerAcceso">
+    <h1 class="Verusu">Validar cuenta</h1>
+    <div class="psel">Ingrese el codigo enviado a su correo electrónico.</div>
+    <div class="SeleccionU">
+        <input type="number" name="codigo" class="ValidC" id="ValidC" maxlength="4" onkeypress="return numeros(event);" />
+        <button type="submit" class="btn btn-primary" id="center-btn">Aceptar</button>
+    </div>
+</form>`);
+}
+$('#Publica').on('submit','#PrimerAcceso', function(e){
     e.preventDefault();
-    var data = $(this).serialize();
-    var devic = device.platform;
-    var seudo = $('#Alias').val(); var correo = $('#Correo').val(); var contra = $('#Contra').val();
-    var textmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(correo);
-    var textco = /(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{5,15}$/.test(correo);
-    var textcon = /(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{5,15}$/.test(contra);
-    var textali = /(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{5,15}$/.test(seudo);
-    var noValido = /\s/;
-    var vmail = /gmail.com/.test(correo); var seu = seudo.length ==0;  var cont = contra.lentgh == 0;
-    if(navigator.onLine){
-        if(vmail == false & seudo.length ==  0 & contra.length == 0){
-            swal('Complete','Todos los campos son requeridos','error');
-            $('#Alias, #Correo, #Contra').css('box-shadow', '0 0 0 0.2rem rgba(231,76,60, 0.25)');
-            var s = setTimeout(function(){
-                   $('#Alias, #Correo, #Contra').css('box-shadow', 'none');
-            },5000);
-        }
-        else if(seudo.length < 5 & textali == false & noValido.test(seudo)){
-            $('#CorrM ').css('box-shadow', '0 0 0 0.2rem rgba(231,76,60, 0.25)');
-            var s = setTimeout(function(){
-                   $('#CorrM').css('box-shadow', 'none');
-            },5000);
-            $('#InfoAlias').empty();
-            $('#InfoAlias').show('blind',400);
-            $('#InfoAlias').append(`<div class="alert alert-danger alert-dismissible" id="alertas">
-                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                    <strong>Seudónimo:</strong> minimo 5 caracteres, solo letras, numeros y sin espacios.
-                                  </div>`);
-        }
-        else if(vmail == false ){
-            $('#CorrM ').css('box-shadow', '0 0 0 0.2rem rgba(231,76,60, 0.25)');
-            var s = setTimeout(function(){
-                   $('#CorrM').css('box-shadow', 'none');
-            },5000);
-            $('#InfoContrar').empty();
-            $('#InfoCorreo').show('blind',400);
-            $('#InfoCorreo').append(`<div class="alert alert-danger alert-dismissible" id="alertas">
-                                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                <strong>Correo:</strong> solo gmail.com 
-                              </div>`);
-        }
-        else if(textcon == false){
-            $('#InfoContrar').empty();
-            $('#Contra').css('box-shadow', '0 0 0 0.2rem rgba(231,76,60, 0.25)');
-            var s = setTimeout(function(){
-                   $('#Contra').css('box-shadow', 'none');
-            },5000);
-            $('#InfoContrar').show('blind',400);
-            $('#InfoContrar').append(`<div class="alert alert-danger alert-dismissible" id="alertas">
-                                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                La contraseña debe tener al entre 5 y 15 caracteres, al menos un dígito, al menos una minúscula y al menos una mayúscula.
-                              </div>`);
+    var dom = localStorage.getItem('dominio');
+    navigator.vibrate(400);
+    var name = localStorage.getItem('nick');
+    var vali = $('#ValidC').val();
+    var serealiza = $(this).serialize();
+    var devi = device.platform;
+    if(vali.length == 0){
+       $('#ValidC').css('box-shadow', '0 0 0 0.2rem rgba(255,9,9, 0.25)');
+        
+    }
+    else if(vali.length < 4){
+        $('#ValidC').css('box-shadow', '0 0 0 0.2rem rgba(255,9,9, 0.25)'); 
+        var x = setTimeout(function(){
+           $('#ValidC').css('box-shadow', 'none');
+       },3000);
+    }
+    else{
+        if(navigator.onLine){
+             $('#center-btn').attr("disabled", true);
+        $.ajax({
+            url:dom+'primerin',
+            data:serealiza+'&device='+devi+'&name='+name,
+            type:'GET',
+            timeout:20000
+        })
+        .done(function(data){
+             $('#center-btn').attr("disabled", false);
+            if(data == 0){
+                $('footer').show();
+                $('footer').empty();
+                $('footer').css('background-color','#F4511E');
+                $('footer').append(`<i class="appadv"></i><div class="smservis col-ter let-seg bg-bold">Codigo incorrecto.</div>`);
+                var x = setTimeout(function(){
+                    $('footer').hide();
+                },4000);
+            }
+            else{
+                localStorage.setItem("sesion",'yes');
+                $('.Inestado').show();
+                $('.Inestado').text('Bienvenido');
+                var ins = setTimeout(function(){
+                    $('.Inestado').hide();
+                },4000);
+            }
+        })
+        .fail(function( jqXHR, textStatus, errorThrown ) {
+            if (jqXHR.status == 500) {
+                console.log('Internal Server Error [500].');
+                $('.Inestado').show();
+                $('.Inestado').text('Error en conexión.');
+                var ins = setTimeout(function(){
+                    $('.Inestado').hide();
+                    $('.Inestado').show();
+                    $('.Inestado').text('Reintente luego.');
+                    var y = setTimeout(function(){
+                        $('.Inestado').hide();
+                        console.clear();
+                    },3000)
+                },3000);
+            }
+            else if (textStatus === 'timeout') {
+                console.log('Time out error.');
+                $('.Inestado').show();
+                $('.Inestado').text('Reintentar');
+                var ins = setTimeout(function(){
+                    $('.Inestado').hide();
+                    console.clear();
+                },3000);
+            }
+            else if (textStatus === 'abort') {
+                console.log('Ajax request aborted.');
+                $('.Inestado').show();
+                $('.Inestado').text('Conexión abortada');
+                var ins = setTimeout(function(){
+                    $('.Inestado').hide();
+                    console.clear();
+                },3000);
+            }
+        });
         }
         else{
-            $.mobile.loading("show");
-            $.ajax({
-                url:'https://add.sakuraitachi.com/mregister',
-                data:data+'&device='+devic,
-                type:'GET',
-                timeout:20000,
-            })
-            .done(function(data){
-                $.mobile.loading("hide");
-                if(data == 'ok'){
-                    swal({ title:'Enhorabuena', text:'Se ha registrado correctamente', icon:'success', timer:5000});
-                    document.getElementById('RegistroU').reset();
-                }
-                else{
-                    swal({ title:'Disculpa', text:data, icon:'error', timer:5000});
-                }
-            })
-            .fail(function( jqXHR, textStatus, errorThrown ) {
-                if (jqXHR.status == 500) {
-                    console.log('Internal Server Error [500].');
-                    $('.Inestado').show();
-                    $('.Inestado').text('Servidor colapsado.');
-                    var ins = setTimeout(function(){
-                        $('.Inestado').hide();
-                        $('.Inestado').show();
-                        $('.Inestado').text('Reintente luego.');
-                        var y = setTimeout(function(){
-                            $('.Inestado').hide();
-                            console.clear();
-                        },3000)
-                    },3000);
-                }
-                else if (textStatus === 'timeout') {
-                    console.log('Time out error.');
-                    $('.Inestado').show();
-                    $('.Inestado').text('Reintentar');
-                    var ins = setTimeout(function(){
-                        $('.Inestado').hide();
-                        console.clear();
-                    },3000);
-                }
-                else if (textStatus === 'abort') {
-                    console.log('Ajax request aborted.');
-                    $('.Inestado').show();
-                    $('.Inestado').text('Conexión abortada');
-                    var ins = setTimeout(function(){
-                        $('.Inestado').hide();
-                        console.clear();
-                    },3000);
-                }
-            });
-        }   
+            $('footer').show();
+            $('footer').empty();
+            $('footer').css('background-color','#F4511E');
+            $('footer').append(`<i class="appadv"></i><div class="smservis col-ter let-seg bg-bold">No hay conexion de internet.</div>`);
+            var ins = setTimeout(function(){
+                $('footer').hide();
+            },4000);
+        }
     }
     
+});
+$('.Despl-menu').on('click','#Salir', function(){
+    navigator.vibrate(400);
+    var dom = localStorage.getItem('dominio');
+    $('.Despl-menu').animate({left:'-80%'},'show');
+    menu = 1;
+    var m = localStorage.getItem('nick');
+    $.ajax({
+        url:dom+'csesion/'+m,
+        type:'GET',
+        timeout:20000
+    })
+    .done(function(data){
+        if(data == 'ok'){
+            cordova.plugins.backgroundMode.disable();
+            localStorage.setItem("sesion",'inicio');
+            localStorage.setItem("conexion",'not');
+            localStorage.setItem("nick",'');
+            window.location = "../index.html";
+        }   
+    })
+    .fail(function( jqXHR, textStatus, errorThrown ) {
+            if (jqXHR.status == 500) {
+                console.log('Internal Server Error [500].');
+                $('.Inestado').show();
+                $('.Inestado').text('Servidor colapsado.');
+                var ins = setTimeout(function(){
+                    $('.Inestado').hide();
+                    $('.Inestado').show();
+                    $('.Inestado').text('Reintente luego.');
+                    var y = setTimeout(function(){
+                        $('.Inestado').hide();
+                        console.clear();
+                    },3000)
+                },3000);
+            }
+            else if (textStatus === 'timeout') {
+                console.log('Time out error.');
+                $('.Inestado').show();
+                $('.Inestado').text('Reintentar');
+                var ins = setTimeout(function(){
+                    $('.Inestado').hide();
+                    console.clear();
+                },3000);
+            }
+            else if (textStatus === 'abort') {
+                console.log('Ajax request aborted.');
+                $('.Inestado').show();
+                $('.Inestado').text('Conexión abortada');
+                var ins = setTimeout(function(){
+                    $('.Inestado').hide();
+                    console.clear();
+                },3000);
+            }
+        });
+});
+function Cliente(){
+    cordova.plugins.backgroundMode.isActive();
+    $('#THeader').css('display','block');;
+    $('#text-1').css('padding-top','0px');
+    $('#text-1').load('buscador/search-cliente.html');
+    $('#opc-2').load('opciones/nada.html');
+    $('#opc-1').load('menu-sin-acceso/menu.html');
+    $('#Publica').empty();
+    $('#Publica').append(`<div class="fondo-cat">
+                            <div class="opciones-hea">
+                                <div class="text-cat">Titulo</div>
+                                <div class="Categoria-in">Categoria</div>
+                            </div>
+                            <i class="cat-img" style="background-image: url('http://digital.local/img/1.png');"></i>
+                            <div class="opciones-cat">
+                                <div class="Pre-in">Precio</div>
+                                <div class="Est-in">Disponible</div>
+                            </div>
+                            <div class="OpcIn">
+                                <i class="in-gust"></i>
+                                <i class="mas-in"></i>
+                            </div>
+                        </div>`);
+}
+$('#opc-1').on('click','#Menu-btn', function(){
+    var conectado = localStorage.getItem('conexion');
+    if(conectado == 'yes'){
+        
+        if(menu == 1){
+            menu = 0;
+            $('.Despl-menu').load('menu/menu-conectado.html');
+            $('.Despl-menu').animate({left:'0%'},'show');
+        }
+        else{
+            menu = 1;
+            $('.Despl-menu').animate({left:'-80%'},'show');
+        }
+       
+    }else{
+       
+        if(menu == 1){
+            menu = 0;
+            $('.Despl-menu').load('menu/sin-acceso.html');
+            $('.Despl-menu').animate({left:'0%'},'show');
+        }
+        else{
+            menu = 1;
+            $('.Despl-menu').animate({left:'-80%'},'show');
+        }
+    }
+});
+$('.Despl-menu').on('click','#Inicia', function(){
+    localStorage.setItem("sesion", 'yes');
+    welcome();
 });
