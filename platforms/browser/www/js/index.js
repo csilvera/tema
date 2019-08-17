@@ -1,9 +1,9 @@
 var ojo = 0;
 //localStorage.setItem("sesion",'not');
 var codigo = localStorage.setItem("apps",'appmuestra011');
-//var dominio = localStorage.setItem('dominio','https://add.sakuraitachi.com/'); 
+var dominio = localStorage.setItem('dominio','https://add.sakuraitachi.com/'); 
 //http://adsimple.local/
-var dominio = localStorage.setItem('dominio','http://adsimple.local/'); 
+//var dominio = localStorage.setItem('dominio','http://adsimple.local/'); 
 var vc = localStorage.setItem("vcompra",'1');
 var che = 1;
 function checkConnection() {
@@ -770,14 +770,15 @@ $('#Publica').on('submit','#ComprarApp', function(e){
         if(navigator.onLine){
             $('#AceptaComple').attr("disabled", true);
             $.ajax({
-                url:'https://add.sakuraitachi.com/guiacompra',
+                url:dom+'guiacompra',
                 data:serealiza+'&device='+devi+'&cod='+app+'&tema='+tema+'&dominio='+dom+'&negocio='+tipo,
                 type:'GET',
                 timeout:20000
             })
             .done(function(data){
+                $('#AceptaComple').attr("disabled", false);
                 if(data == 'ok'){
-                     document.getElementById('helpatencion').reset();
+                     document.getElementById('ComprarApp').reset();
                     localStorage.setItem("sesion", 'inicio');
                     welcome();
                     $('footer').show();
