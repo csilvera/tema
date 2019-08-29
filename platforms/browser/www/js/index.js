@@ -1,9 +1,9 @@
 var ojo = 0;
 //localStorage.setItem("sesion",'not');
 var codigo = localStorage.setItem("apps",'appmuestra011');
-var dominio = localStorage.setItem('dominio','https://add.sakuraitachi.com/'); 
+//var dominio = localStorage.setItem('dominio','https://add.sakuraitachi.com/'); 
 //http://adsimple.local/
-//var dominio = localStorage.setItem('dominio','http://adsimple.local/'); 
+var dominio = localStorage.setItem('dominio','http://adsimple.local/'); 
 var vc = localStorage.setItem("vcompra",'1');
 var che = 1;
 function checkConnection() {
@@ -33,7 +33,7 @@ var app = {
     onDeviceReady: function() {
         checkConnection();
         welcome();
-       //Opcionper();
+        Opcionper();
         document.addEventListener("backbutton", onBackKeyDown, false);
     },
     // Update DOM on a Received Event
@@ -420,13 +420,13 @@ function helpayuda(){
     $('#Publica').empty();
     $('#Publica').append(`<form id="helpatencion" autocomplete="off">
     <div class="username let-seg col-min">Correo electrónico</div>
-    <input type="text" placeholder="Ingrese correo" name="name" class="mail-u let-seg" id="CorrM" maxlength="50" onpaste="return false" />
+    <input type="text" placeholder="Ingrese correo" name="name" class="mail-u let-seg" id="CorrM" maxlength="50" onpaste="return false" value="ing.cesarsilvera@gmail.com" />
     <div id="InfoCorreo"></div>
     <div class="usernam let-seg col-min" style="padding-bottom: 10px;">Asunto</div>
-    <input type="text" class="form-control asun let-seg" id="asuntos" name="asunto"  placeholder="Ingrese asunto" maxlength="25" onpaste="return false" />
+    <input type="text" class="form-control asun let-seg" id="asuntos" name="asunto"  placeholder="Ingrese asunto" maxlength="25" onpaste="return false" value="Prueba" />
     <div id="InfoAsunto"></div>
     <div class="usernam let-seg col-min">Descripción</div>
-    <textarea maxlength="150" id="Coment" class="descric let-seg" name="descri" placeholder="Ingrese descripción" onpaste="return false"></textarea>
+    <textarea maxlength="150" id="Coment" class="descric let-seg" name="descri" placeholder="Ingrese descripción" onpaste="return false">esto es una prueba</textarea>
     <div id="InfoDescri"></div>
     <button type="submit" class="ColorDominante" id="En-sub">
         <i class="ico-send"></i>
@@ -434,89 +434,6 @@ function helpayuda(){
 </form>`);
     
 }
-$('#Publica').on('submit','#helpatencion', function(e){
-    e.preventDefault();
-    var data = $(this).serialize();
-    var devic = device.platform;
-    var mail = $('#CorrM').val(); var asun = $('#asuntos').val(); var desc = $('#Coment').val();
-    var vmail = /gmail.com/.test(mail); var vasun = asun.length ==0;  var vdes = desc.lentgh == 0;
-    if(navigator.onLine){
-        if(vmail == false & asun.length ==  0 & desc.length == 0){
-            $('#CorrM, #asuntos, #Coment').css('box-shadow', '0 0 0 0.2rem rgba(231,76,60, 0.25)');
-            var s = setTimeout(function(){
-                   $('#CorrM, #asuntos, #Coment').css('box-shadow', 'none');
-            },5000);
-        }
-        else if(vmail == false){
-            $('#CorrM ').css('box-shadow', '0 0 0 0.2rem rgba(231,76,60, 0.25)');
-            var s = setTimeout(function(){
-                   $('#CorrM').css('box-shadow', 'none');
-            },5000);
-        }
-        else if(asun.length ==  0 & asun.length <= 3 ){
-            $('#asuntos ').css('box-shadow', '0 0 0 0.2rem rgba(231,76,60, 0.25)');
-            var s = setTimeout(function(){
-                   $('#asuntos').css('box-shadow', 'none');
-            },5000); 
-        }
-        else if(desc.length ==  0 & desc.length <= 10 ){
-            $('#asuntos ').css('box-shadow', '0 0 0 0.2rem rgba(231,76,60, 0.25)');
-            var s = setTimeout(function(){
-                   $('#asuntos').css('box-shadow', 'none');
-            },5000); 
-        }
-        else{
-            $.ajax({
-                url:'https://add.sakuraitachi.com/mhelpcliente',
-                data:data+'&device='+devic,
-                type:'GET',
-                timeout:20000,
-            })
-            .done(function(data){
-                if(data == 'ok'){
-                    document.getElementById('helpatencion').reset();
-                }
-                else{
-                    
-                }
-            })
-            .fail(function( jqXHR, textStatus, errorThrown ) {
-                if (jqXHR.status == 500) {
-                    console.log('Internal Server Error [500].');
-                    $('.Inestado').show();
-                    $('.Inestado').text('Servidor colapsado.');
-                    var ins = setTimeout(function(){
-                        $('.Inestado').hide();
-                        $('.Inestado').show();
-                        $('.Inestado').text('Reintente luego.');
-                        var y = setTimeout(function(){
-                            $('.Inestado').hide();
-                            console.clear();
-                        },3000)
-                    },3000);
-                }
-                else if (textStatus === 'timeout') {
-                    console.log('Time out error.');
-                    $('.Inestado').show();
-                    $('.Inestado').text('Reintentar');
-                    var ins = setTimeout(function(){
-                        $('.Inestado').hide();
-                        console.clear();
-                    },3000);
-                }
-                else if (textStatus === 'abort') {
-                    console.log('Ajax request aborted.');
-                    $('.Inestado').show();
-                    $('.Inestado').text('Conexión abortada');
-                    var ins = setTimeout(function(){
-                        $('.Inestado').hide();
-                        console.clear();
-                    },3000);
-                }
-            });
-        }   
-    }
-});
 function terminos(){
     $('#THeader').css('display','block');
     $('#text-1').css('padding-top','5px');
@@ -616,7 +533,8 @@ function Opcionper(){
     $.ajax({
         url:dom+'comprobar/'+app,
         type:'GET',
-        timeout:20000
+        timeout:20000,
+        dataType:'json',
     })
     .done(function(data){
         if(data == 'fuera'){
@@ -895,7 +813,8 @@ $('#Publica').on('submit','#IniciaSesion', function(e){
                 url:dom+'welcomein',
                 data:serealiza+'&device='+devi+'&cod='+app,
                 type:'GET',
-                timeout:20000
+                timeout:20000,
+                dataType:'json',
             })
             .done(function(data){
                 $('#En-sub').attr("disabled", false);
@@ -1006,67 +925,69 @@ $('#Publica').on('submit','#PrimerAcceso', function(e){
     }
     else{
         if(navigator.onLine){
-             $('#center-btn').attr("disabled", true);
-        $.ajax({
-            url:dom+'primerin',
-            data:serealiza+'&device='+devi+'&name='+name,
-            type:'GET',
-            timeout:20000
-        })
-        .done(function(data){
-             $('#center-btn').attr("disabled", false);
-            if(data == 0){
-                $('footer').show();
-                $('footer').empty();
-                $('footer').css('background-color','#F4511E');
-                $('footer').append(`<i class="appadv"></i><div class="smservis col-ter let-seg bg-bold">Codigo incorrecto.</div>`);
-                var x = setTimeout(function(){
-                    $('footer').hide();
-                },4000);
-            }
-            else{
-                localStorage.setItem("sesion",'yes');
-                $('.Inestado').show();
-                $('.Inestado').text('Bienvenido');
-                var ins = setTimeout(function(){
-                    $('.Inestado').hide();
-                },4000);
-            }
-        })
-        .fail(function( jqXHR, textStatus, errorThrown ) {
-            if (jqXHR.status == 500) {
-                console.log('Internal Server Error [500].');
-                $('.Inestado').show();
-                $('.Inestado').text('Error en conexión.');
-                var ins = setTimeout(function(){
-                    $('.Inestado').hide();
+            $('#center-btn').attr("disabled", true);
+            $.ajax({
+                url:dom+'primerin',
+                data:serealiza+'&device='+devi+'&name='+name,
+                type:'GET',
+                timeout:20000,
+                dataType:'json',
+                async:false,
+            })
+            .done(function(data){
+                 $('#center-btn').attr("disabled", false);
+                if(data == 0){
+                    $('footer').show();
+                    $('footer').empty();
+                    $('footer').css('background-color','#F4511E');
+                    $('footer').append(`<i class="appadv"></i><div class="smservis col-ter let-seg bg-bold">Codigo incorrecto.</div>`);
+                    var x = setTimeout(function(){
+                        $('footer').hide();
+                    },4000);
+                }
+                else{
+                    localStorage.setItem("sesion",'yes');
                     $('.Inestado').show();
-                    $('.Inestado').text('Reintente luego.');
-                    var y = setTimeout(function(){
+                    $('.Inestado').text('Bienvenido');
+                    var ins = setTimeout(function(){
+                        $('.Inestado').hide();
+                    },4000);
+                }
+            })
+            .fail(function( jqXHR, textStatus, errorThrown ) {
+                if (jqXHR.status == 500) {
+                    console.log('Internal Server Error [500].');
+                    $('.Inestado').show();
+                    $('.Inestado').text('Error en conexión.');
+                    var ins = setTimeout(function(){
+                        $('.Inestado').hide();
+                        $('.Inestado').show();
+                        $('.Inestado').text('Reintente luego.');
+                        var y = setTimeout(function(){
+                            $('.Inestado').hide();
+                            console.clear();
+                        },3000)
+                    },3000);
+                }
+                else if (textStatus === 'timeout') {
+                    console.log('Time out error.');
+                    $('.Inestado').show();
+                    $('.Inestado').text('Reintentar');
+                    var ins = setTimeout(function(){
                         $('.Inestado').hide();
                         console.clear();
-                    },3000)
-                },3000);
-            }
-            else if (textStatus === 'timeout') {
-                console.log('Time out error.');
-                $('.Inestado').show();
-                $('.Inestado').text('Reintentar');
-                var ins = setTimeout(function(){
-                    $('.Inestado').hide();
-                    console.clear();
-                },3000);
-            }
-            else if (textStatus === 'abort') {
-                console.log('Ajax request aborted.');
-                $('.Inestado').show();
-                $('.Inestado').text('Conexión abortada');
-                var ins = setTimeout(function(){
-                    $('.Inestado').hide();
-                    console.clear();
-                },3000);
-            }
-        });
+                    },3000);
+                }
+                else if (textStatus === 'abort') {
+                    console.log('Ajax request aborted.');
+                    $('.Inestado').show();
+                    $('.Inestado').text('Conexión abortada');
+                    var ins = setTimeout(function(){
+                        $('.Inestado').hide();
+                        console.clear();
+                    },3000);
+                }
+            });
         }
         else{
             $('footer').show();
@@ -1089,7 +1010,9 @@ $('.Despl-menu').on('click','#Salir', function(){
     $.ajax({
         url:dom+'csesion/'+m,
         type:'GET',
-        timeout:20000
+        timeout:20000,
+        dataType:'json',
+        async:false,
     })
     .done(function(data){
         if(data == 'ok'){

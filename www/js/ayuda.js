@@ -47,10 +47,11 @@ $('#Publica').on('submit','#helpatencion', function(e){
         }
         else{
             if(navigator.onLine){
+                console.log('http://adsimple.local/mhelpcliente?'+data+'&device='+devic);
                 $.ajax({
-                    url:dom+'mhelpcliente',
+                    url:'http://adsimple.local/mhelpcliente',
                     data:data+'&device='+devic,
-                    type:'GET',
+                    type:'POST',
                     timeout:20000,
                 })
                 .done(function(data){
