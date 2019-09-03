@@ -1093,6 +1093,10 @@ li.list-ay{
     background: url('../img/usuario.png');
     background-size: 18px 18px;
 }
+.ico-left{
+    background: url('../img/galon-derecho.png');
+    background-size: 18px 18px;
+}
 .ico-restaura{
     background: url('../img/clave.png');
     background-size: 18px 18px;

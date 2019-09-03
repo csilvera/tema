@@ -1018,7 +1018,7 @@ $('.Despl-menu').on('click','#Salir', function(){
             localStorage.setItem("sesion",'inicio');
             localStorage.setItem("conexion",'not');
             localStorage.setItem("nick",'');
-            window.location = "../index.html";
+            welcome();
         }   
     })
     .fail(function( jqXHR, textStatus, errorThrown ) {
