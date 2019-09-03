@@ -188,6 +188,17 @@ $('#Publica').on('click','#Informa', function(){
     },8000);
 });
 function inicio(){
+    var acceso = localStorage.getItem('sesion');
+    if(acceso == 'yes'){
+        cordova.plugins.backgroundMode.isActive();
+        $('#THeader').css('display','block');;
+        $('#text-1').css('padding-top','0px');
+        $('#text-1').load('buscador/search-cliente.html');
+        $('#opc-2').load('opciones/nada.html');
+        $('#opc-1').load('menu-sin-acceso/menu.html');
+        $('#Publica').empty();
+        $('#Publica').append(``);
+    }else{
     $('#THeader').css('display','block');
     $('#text-1').css('padding-top','5px');
     $('#text-1').text('Iniciar sesión');
@@ -207,7 +218,7 @@ function inicio(){
             <i class="ico-send"></i>
         </button>
     </form>`);
-    
+    }
 }
 $('.Despl-menu').on('click','#Retornar', function(){
     menu = 1;
