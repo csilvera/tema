@@ -1,7 +1,7 @@
 var ojo = 0;
 //localStorage.setItem("sesion",'not');
 var codigo = localStorage.setItem("apps",'appmuestra011');
-var dominio = localStorage.setItem('dominio','https://tsimple.didigitales.live//'); 
+var dominio = localStorage.setItem('dominio','https://tsimple.didigitales.live/'); 
 //http://adsimple.local/
 //var dominio = localStorage.setItem('dominio','http://adsimple.local/'); 
 var vc = localStorage.setItem("vcompra",'1');
@@ -510,7 +510,7 @@ function datatermino(){
     $('#Publica').append(`<div class="SinR">No hay  términos ni condiciones. </div>`);
 }
 $('#Publica').on('click','#Empezar', function(){
-    localStorage.setItem("sesion", 'guia');
+    localStorage.setItem("sesion", 'inicio');
     welcome();
 });
 $('#Publica').on('click','#terminos', function(){
@@ -809,14 +809,14 @@ $('#Publica').on('submit','#IniciaSesion', function(e){
     else{
         if(navigator.onLine){
             $('#En-sub').attr("disabled", true);
+            console.log(dom+'welcomein?'+serealiza+'&device='+devi+'&cod='+app);
             $.ajax({
-                url:dom+'welcomein',
+                url:dom+'welcomein?',
                 data:serealiza+'&device='+devi+'&cod='+app,
-                type:'GET',
-                timeout:20000,
-                dataType:'json',
+                type:'GET'
             })
             .done(function(data){
+                console.log(data);
                 $('#En-sub').attr("disabled", false);
                 if(data == 'primer'){
                    localStorage.setItem("nick",nic);
@@ -827,12 +827,13 @@ $('#Publica').on('submit','#IniciaSesion', function(e){
                     localStorage.setItem("sesion",'yes');
                     localStorage.setItem("conexion",'yes');
                     $('.Inestado').show();
-                    $('.Inestado').text('Bienvenido');
+                    $('.Inestado').text('Bienvenidos');
                     welcome();
                     var ins = setTimeout(function(){
                         $('.Inestado').hide();
                     },4000);
                     cordova.plugins.backgroundMode.enable();
+                
                 }
                 else{
                     $('footer').show();
@@ -1010,9 +1011,6 @@ $('.Despl-menu').on('click','#Salir', function(){
     $.ajax({
         url:dom+'csesion/'+m,
         type:'GET',
-        timeout:20000,
-        dataType:'json',
-        async:false,
     })
     .done(function(data){
         if(data == 'ok'){
@@ -1059,28 +1057,20 @@ $('.Despl-menu').on('click','#Salir', function(){
         });
 });
 function Cliente(){
-    cordova.plugins.backgroundMode.isActive();
-    $('#THeader').css('display','block');;
-    $('#text-1').css('padding-top','0px');
-    $('#text-1').load('buscador/search-cliente.html');
-    $('#opc-2').load('opciones/nada.html');
-    $('#opc-1').load('menu-sin-acceso/menu.html');
-    $('#Publica').empty();
-    $('#Publica').append(`<div class="fondo-cat">
-                            <div class="opciones-hea">
-                                <div class="text-cat">Titulo</div>
-                                <div class="Categoria-in">Categoria</div>
-                            </div>
-                            <i class="cat-img" style="background-image: url('http://digital.local/img/1.png');"></i>
-                            <div class="opciones-cat">
-                                <div class="Pre-in">Precio</div>
-                                <div class="Est-in">Disponible</div>
-                            </div>
-                            <div class="OpcIn">
-                                <i class="in-gust"></i>
-                                <i class="mas-in"></i>
-                            </div>
-                        </div>`);
+    var acceso = localStorage.getItem('sesion');
+    if(acceso == 'yes'){
+        cordova.plugins.backgroundMode.isActive();
+        $('#THeader').css('display','block');;
+        $('#text-1').css('padding-top','0px');
+        $('#text-1').load('buscador/search-cliente.html');
+        $('#opc-2').load('opciones/nada.html');
+        $('#opc-1').load('menu-sin-acceso/menu.html');
+        $('#Publica').empty();
+        $('#Publica').append(``);
+    }else{
+        inicio();
+    }
+    
 }
 $('#opc-1').on('click','#Menu-btn', function(){
     var conectado = localStorage.getItem('conexion');
